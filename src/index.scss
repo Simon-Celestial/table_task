@@ -1,0 +1,24 @@
+@import "./Variables/Variables.module.scss";
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    scroll-behavior: smooth;
+}
+
+body {
+    display: flex;
+    flex-direction: column;
+    width: 100vw;
+    overflow-x: hidden;
+    font-family: $font;
+    font-size: 16px;
+    scroll-behavior: smooth;
+    background: #fafafa;
+    font-weight: 400;
+    font-style: normal;
+}
+a {
+    text-decoration: none;
+    color: black;
+}
