@@ -1,0 +1,26 @@
+@import "../../../Variables/Variables.module";
+
+.footerWrapper {
+  display: flex;
+  width: 100%;
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  justify-content: center;
+  background-color: #232326;
+  border-top: 1px solid black;
+
+  .footerContent {
+    display: flex;
+    max-width: 1200px;
+    width: 100%;
+    justify-content: center;
+    align-content: center;
+    padding: 15px;
+
+    p {
+      color: white;
+      text-transform: uppercase;
+    }
+  }
+}
