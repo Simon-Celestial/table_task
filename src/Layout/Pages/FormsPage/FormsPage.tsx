@@ -1,36 +1,49 @@
 import styles from "./FormsPage.module.scss";
 import {Header} from "../../Components/Header/Header.tsx";
-import React, {useState, useCallback} from "react";
+import React, {useState, useCallback, useContext} from "react";
 import {Footer} from "../../Components/Footer/Footer.tsx";
-import {StudentForm, LessonForm} from "../../../types.ts";
+import {StudentDetails, LessonDetails} from "../../../types.ts";
 import {Bounce, toast} from "react-toastify";
 import axios from "axios";
 import {ThreeCircles} from "react-loader-spinner";
+import {DataContext} from "../../../Context/DataContext.tsx";
+import {Box, FormControl, InputLabel, MenuItem, Select, SelectChangeEvent} from "@mui/material";
 
 
-const studentDefaults: StudentForm = {
+const studentDefaults: StudentDetails = {
     studentName: "",
     studentSurname: "",
     studentNo: 0,
     class: ""
 }
-const lessonDefaults: LessonForm = {
+const lessonDefaults: LessonDetails = {
+    lessonName: "",
+    teacherName: "",
+    teacherNo: 0,
+    class: ""
+}
+const scoreDefaults: LessonDetails = {
     lessonName: "",
     teacherName: "",
     teacherNo: 0,
     class: ""
 }
 
+
 export const FormsPage = () => {
+    const {update, studentsData} = useContext(DataContext);
     const [studentsForm, setStudentsForm] = useState(studentDefaults);
     const [studentsLoading, setStudentsLoading] = useState(false);
-    const [lessonsLoading,setLessonsLoading] = useState(false);
+    const [lessonsLoading, setLessonsLoading] = useState(false);
     const [lessonsForm, setLessonsForm] = useState(lessonDefaults);
-    const [shouldUpdate, setShouldUpdate] = useState(Date.now());
+    const [scoreForm, setScoreForm] = React.useState('');
 
-    const update = useCallback(() => {
-        setShouldUpdate(Date.now())
-    }, []);
+
+
+    const handleChange = (event: SelectChangeEvent) => {
+        setAge(event.target.value as string);
+    };
+
 
     const handleStudentChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         const {name, value} = e.target;
@@ -269,7 +282,32 @@ export const FormsPage = () => {
                             <form className={styles.formContent}>
                                 <div className={styles.inputBlock}>
                                     Select Student
-                                    <input type="text"/>
+                                    <Box sx={{minWidth: 120, border: '1px solid white'}}>
+                                        <FormControl fullWidth>
+                                            <Select
+                                                sx={{
+                                                    color: "white",
+                                                    '.MuiSvgIcon-root': {
+                                                        color: 'white'
+                                                    },
+                                                    '&.Mui-focused .MuiOutlinedInput-notchedOutline': {
+                                                        borderColor: 'orange'
+                                                    },
+                                                }}
+                                                labelId="demo-simple-select-label"
+                                                id="demo-simple-select"
+                                                value={age}
+                                                onChange={handleChange}
+                                            >
+                                                {studentsData.map(student => (
+                                                    <MenuItem key={student.id}
+                                                              value={`${student.studentName} ${student.studentSurname}`}>
+                                                        {student.studentName} {student.studentSurname}
+                                                    </MenuItem>
+                                                ))}
+                                            </Select>
+                                        </FormControl>
+                                    </Box>
                                 </div>
                                 <div className={styles.inputBlock}>
                                     Select Teacher

@@ -1,0 +1,131 @@
+@import "../../../Variables/Variables.module";
+
+.editOverlay {
+  display: flex;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(0, 0, 0, 0.6);
+  position: fixed;
+  right: 0;
+  top: 0;
+  z-index: 10;
+  opacity: 0;
+  transition: opacity $transition;
+  pointer-events: none;
+
+  &.menuActive {
+    opacity: 1;
+    pointer-events: auto;
+
+    .menuWrapper {
+      right: 0;
+    }
+  }
+  &.lessonMenuActive {
+    opacity: 1;
+    pointer-events: auto;
+
+    .menuWrapper {
+      right: 0;
+    }
+  }
+
+  .menuWrapper {
+    display: flex;
+    flex-direction: column;
+    max-width: 350px;
+    height: 100%;
+    position: absolute;
+    right: -100%;
+    transition: right 0.4s ease;
+    width: 100%;
+    background: $gray-background;
+    border-left: 2px solid white;
+    padding: 50px 25px;
+    top: 0;
+    align-items: center;
+
+    .closeMenu {
+      padding: 5px;
+      cursor: pointer;
+      position: absolute;
+      left: 10px;
+      top: 10px;
+
+      &:hover {
+        svg {
+          transform: rotate(360deg) scale(1.2);
+          color: orange;
+        }
+      }
+
+      svg {
+        color: white;
+        font-size: 32px;
+        transition: transform $transition, color $transition;
+      }
+    }
+
+    .head {
+      h1 {
+        font-size: 25px;
+        color: white;
+        text-transform: uppercase;
+      }
+    }
+
+    .body {
+      display: flex;
+      flex-direction: column;
+      padding: 25px 0;
+      gap: 20px;
+      width: 100%;
+
+      .inputWrapper {
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        gap: 5px;
+        color: white;
+        font-size: 18px;
+        text-transform: uppercase;
+
+        input {
+          border: 2px solid white;
+          border-radius: 5px;
+          padding: 10px;
+          background: transparent;
+          outline: 0;
+          color: white;
+
+          &::placeholder {
+            color: rgba(255, 255, 255, 0.6);
+          }
+        }
+      }
+
+      .submitBtn {
+        width: 100%;
+        height: 40px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-radius: 5px;
+        outline: 0;
+        border: 1px solid black;
+        background: orange;
+        color: black;
+        font-size: 20px;
+        text-transform: uppercase;
+        cursor: pointer;
+        font-weight: 700;
+        transition: background $transition;
+
+        &:hover {
+          background: #be6906;
+        }
+      }
+
+    }
+  }
+}

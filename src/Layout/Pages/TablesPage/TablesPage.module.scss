@@ -3,5 +3,165 @@
 .tablesMain {
   display: flex;
   width: 100%;
+  justify-content: center;
   padding: 100px 30px;
+  background: $gray-background;
+
+  .tablesContent {
+    display: flex;
+    width: 100%;
+    flex-direction: column;
+    gap: 50px;
+    align-items: center;
+
+    .tableWrapper {
+      display: flex;
+      width: 100%;
+      max-width: 1200px;
+      flex-direction: column;
+      .infoContainer {
+        display: flex;
+        width: 100%;
+        align-items: center;
+        justify-content: space-between;
+        gap: 25px;
+        padding: 5px 0;
+        h1 {
+          font-size: 32px;
+          color: white;
+          letter-spacing: 1px;
+          text-align: center;
+          text-transform: uppercase;
+        }
+        input {
+          border: 2px solid white;
+          background: #595959;
+          border-radius: 5px;
+          padding: 10px;
+          outline: 0;
+          width: 100%;
+          max-width: 350px;
+          color: white;
+          &::placeholder {
+            color: rgba(255, 255, 255, 0.5);
+          }
+        }
+
+      }
+
+
+      .tableBlock {
+        margin-top: 10px;
+        display: flex;
+        width: 100%;
+        flex-direction: column;
+        border: 2px solid black;
+        border-radius: 10px;
+        background: #424446;
+        min-height: 249px;
+        overflow: hidden;
+
+        .noData {
+          color: white;
+          padding: 15px;
+          font-size: 20px;
+        }
+        .loader{
+          margin: auto;
+        }
+
+        .tableRow {
+          display: flex;
+          width: 100%;
+
+          &.topRow {
+            border-bottom: 2px solid black;
+
+            .cell {
+              background: #2c2c2c;
+            }
+          }
+
+          &.bottomRow {
+            border-bottom: 2px solid black;
+
+            .cell {
+              background: #595959;
+            }
+          }
+
+          .cell {
+            display: flex;
+            padding: 10px 20px;
+            width: 100%;
+            color: white;
+            border-right: 2px solid black;
+            align-items: center;
+
+            &:last-child {
+              border-right: 0;
+            }
+          }
+
+          .no {
+            max-width: 240px;
+          }
+
+          .name {
+            max-width: 240px;
+          }
+
+          .surname {
+            max-width: 240px;
+          }
+
+          .class {
+            max-width: 240px;
+          }
+
+          .options {
+            max-width: 240px;
+            justify-content: end;
+            gap: 15px;
+
+            .btn {
+              cursor: pointer;
+
+              &:nth-child(2) {
+                &:hover {
+                  svg {
+                    color: red;
+                    transform: scale(1.1);
+                  }
+                }
+              }
+
+              &:nth-child(1) {
+                &:hover {
+                  svg {
+                    color: orange;
+                    transform: scale(1.1);
+                  }
+                }
+              }
+
+              svg {
+                font-size: 25px;
+                transition: color $transition, transform $transition;
+              }
+            }
+          }
+        }
+      }
+
+      .tablePagination {
+        display: flex;
+        width: 100%;
+        padding: 10px 0;
+
+      }
+
+    }
+
+  }
 }
