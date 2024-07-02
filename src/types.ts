@@ -3,13 +3,25 @@ export interface StudentDetails {
     id?: number;
     studentName: string;
     studentSurname: string;
-    studentNo: number;
+    studentNo: number | string;
     class: string;
 }
-export interface LessonDetails{
+
+export interface LessonDetails {
     id?: number;
     lessonName: string;
     teacherName: string;
-    teacherNo: number;
+    teacherNo: number | string;
     class: string;
 }
+
+export interface ScoreDetails {
+    id?: number;
+    studentFullName: string;
+    teacherName: string;
+    lessonName: string;
+    class: string;
+    date: string;
+    score: string;
+}
+
