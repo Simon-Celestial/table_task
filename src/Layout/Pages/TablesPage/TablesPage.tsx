@@ -6,7 +6,7 @@ import React, {useCallback, useContext, useEffect, useMemo, useState} from "reac
 import {Pagination, Stack} from "@mui/material";
 import {DataContext} from "../../../Context/DataContext.tsx";
 import {ThreeCircles} from "react-loader-spinner";
-import {LessonDetails, StudentDetails} from "../../../types.ts";
+import {LessonDetails, ScoreDetails, StudentDetails} from "../../../types.ts";
 import {StudentsMenu} from "../../Common/EditMenu/StudentsMenu/StudentsMenu.tsx";
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
@@ -15,23 +15,42 @@ import {LessonsMenu} from "../../Common/EditMenu/LessonsMenu/LessonsMenu.tsx";
 // PAGINATION
 const itemsPerPage = 5;
 
+const formatDateTime = (dateString: string): string => {
+    const date = new Date(dateString);
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const year = date.getFullYear().toString();
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    return `${day}.${month}.${year}, ${hours}:${minutes}`;
+}
+
 export const TablesPage = () => {
 
     const {
         studentsData,
         lessonsData,
+        scoresData,
+
         studentsDataLoading,
         lessonsDataLoading,
+        scoresDataLoading,
+
         handleDeleteStudent,
         handleDeleteLesson,
+        handleDeleteScore,
+
     } = useContext(DataContext);
 
 
-    const [currentPage, setCurrentPage] = useState(1);
+    const [currentStudentPage, setCurrentStudentPage] = useState(1);
     const [currentLessonsPage, setCurrentLessonsPage] = useState(1);
+    const [currentScoresPage, setCurrentScoresPage] = useState(1);
 
-    const [studentSearch, setStudentSearch] = useState("");
+    const [studentsSearch, setStudentSearch] = useState("");
     const [lessonsSearch, setLessonsSearch] = useState("");
+    const [scoresSearch, setScoresSearch] = useState("");
+
 
     const [selectedItem, setSelectedItem] = useState<StudentDetails | null>(null);
     const [selectedLesson, setSelectedLesson] = useState<LessonDetails | null>(null);
@@ -40,6 +59,7 @@ export const TablesPage = () => {
     const [studentMenuOpen, setStudentMenuOpen] = useState(false);
     const [lessonsMenuOpen, setLessonsMenuOpen] = useState(false);
 
+
     const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         setStudentSearch(e.target.value)
     }, [setStudentSearch]);
@@ -47,6 +67,10 @@ export const TablesPage = () => {
     const handleLessonsChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         setLessonsSearch(e.target.value)
     }, [setLessonsSearch]);
+
+    const handleScoresChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
+        setScoresSearch(e.target.value)
+    }, [setScoresSearch]);
 
 
     const sortedStudents: StudentDetails[] = useMemo(() => {
@@ -67,16 +91,24 @@ export const TablesPage = () => {
         });
     }, [lessonsData]);
 
+    const sortedScores: ScoreDetails[] = useMemo(() => {
+        return [...scoresData].sort((a, b): number => {
+            if (a.id && b.id) {
+                return b.id - a.id;
+            }
+            return 0;
+        });
+    }, [scoresData]);
+
 
     const filteredStudents = useMemo(() => {
         return sortedStudents.filter(
             (data) =>
-                data.studentName.toLowerCase().includes(studentSearch.toLowerCase()) ||
-                data.studentSurname.toLowerCase().includes(studentSearch.toLowerCase()) ||
-                data.class.toLowerCase().includes(studentSearch.toLowerCase())
-
+                data.studentName.toLowerCase().includes(studentsSearch.toLowerCase()) ||
+                data.studentSurname.toLowerCase().includes(studentsSearch.toLowerCase()) ||
+                data.class.toLowerCase().includes(studentsSearch.toLowerCase())
         );
-    }, [sortedStudents, studentSearch]);
+    }, [sortedStudents, studentsSearch]);
 
     const filteredLessons = useMemo(() => {
         return sortedLessons.filter(
@@ -84,29 +116,48 @@ export const TablesPage = () => {
                 data.lessonName.toLowerCase().includes(lessonsSearch.toLowerCase()) ||
                 data.teacherName.toLowerCase().includes(lessonsSearch.toLowerCase()) ||
                 data.class.toLowerCase().includes(lessonsSearch.toLowerCase())
-
         );
     }, [sortedLessons, lessonsSearch]);
 
+    const filteredScores = useMemo(() => {
+        return sortedScores.filter(
+            (data) =>
+                data.studentFullName.toLowerCase().includes(scoresSearch.toLowerCase()) ||
+                data.teacherName.toLowerCase().includes(scoresSearch.toLowerCase()) ||
+                data.class.toLowerCase().includes(scoresSearch.toLowerCase())
+        );
+    }, [sortedScores, scoresSearch]);
+
+
     // PAGINATION
-    const startIndex = useMemo(() => (currentPage - 1) * itemsPerPage,
-        [currentPage]);
+    const startIndex = useMemo(() => (currentStudentPage - 1) * itemsPerPage,
+        [currentStudentPage]);
 
     const startLessonIndex = useMemo(() => (currentLessonsPage - 1) * itemsPerPage,
         [currentLessonsPage]);
+
+    const startScoreIndex = useMemo(() => (currentScoresPage - 1) * itemsPerPage,
+        [currentScoresPage]);
+
 
     const endIndex = useMemo(() => startIndex + itemsPerPage, [startIndex]);
 
     const endLessonIndex = useMemo(() => startLessonIndex + itemsPerPage, [startLessonIndex]);
 
+    const endScoreIndex = useMemo(() => startScoreIndex + itemsPerPage, [startScoreIndex]);
+
 
     const handlePageChange = useCallback((_event: React.ChangeEvent<unknown>, page: number) => {
-        setCurrentPage(page);
-    }, [setCurrentPage]);
+        setCurrentStudentPage(page);
+    }, [setCurrentStudentPage]);
 
     const handleLessonsPageChange = useCallback((_event: React.ChangeEvent<unknown>, page: number) => {
         setCurrentLessonsPage(page);
     }, [setCurrentLessonsPage]);
+
+    const handleScoresPageChange = useCallback((_event: React.ChangeEvent<unknown>, page: number) => {
+        setCurrentScoresPage(page);
+    }, [setCurrentScoresPage]);
 
 
     const currentStudents = useMemo(() => {
@@ -117,18 +168,28 @@ export const TablesPage = () => {
         return filteredLessons?.slice(startLessonIndex, endLessonIndex);
     }, [filteredLessons, startLessonIndex, endLessonIndex]);
 
+    const currentScores = useMemo(() => {
+        return filteredScores?.slice(startScoreIndex, endScoreIndex);
+    }, [filteredScores, startScoreIndex, endScoreIndex]);
+
 
     useEffect(() => {
         if (filteredStudents && filteredStudents.length > 0 && endIndex > filteredStudents.length - 1) {
-            setCurrentPage(Math.ceil(filteredStudents?.length / itemsPerPage));
+            setCurrentStudentPage(Math.ceil(filteredStudents?.length / itemsPerPage));
         }
-    }, [endIndex, filteredStudents, setCurrentPage, itemsPerPage]);
+    }, [endIndex, filteredStudents, setCurrentStudentPage, itemsPerPage]);
 
     useEffect(() => {
         if (filteredLessons && filteredLessons.length > 0 && endLessonIndex > filteredLessons.length - 1) {
             setCurrentLessonsPage(Math.ceil(filteredLessons?.length / itemsPerPage));
         }
     }, [endLessonIndex, filteredLessons, setCurrentLessonsPage, itemsPerPage]);
+
+    useEffect(() => {
+        if (filteredScores && filteredScores.length > 0 && endScoreIndex > filteredScores.length - 1) {
+            setCurrentScoresPage(Math.ceil(filteredScores?.length / itemsPerPage));
+        }
+    }, [endScoreIndex, filteredScores, setCurrentScoresPage, itemsPerPage]);
 
 
     const handleOpenMenu = useCallback((data: StudentDetails) => {
@@ -170,7 +231,7 @@ export const TablesPage = () => {
                 <div className={styles.tablesContent}>
                     <div className={styles.tableWrapper}>
                         <div className={styles.infoContainer}>
-                            <input value={studentSearch} onChange={handleChange} type="text" name="searchStudent"
+                            <input value={studentsSearch} onChange={handleChange} type="text" name="searchStudent"
                                    placeholder="Search..."/>
                             <h1>Students Table</h1>
                         </div>
@@ -210,11 +271,16 @@ export const TablesPage = () => {
                                                     className={`${styles.surname} ${styles.cell}`}>{data?.studentSurname}</div>
                                                 <div className={`${styles.class} ${styles.cell}`}>{data?.class}</div>
                                                 <div className={`${styles.options} ${styles.cell}`}>
-                                                    <div className={styles.btn} onClick={() => handleOpenMenu(data)}>
-                                                        <Wrench/></div>
-                                                    <div className={styles.btn}
-                                                         onClick={() => data?.id && handleDeleteStudent(data.id, data.studentName, data?.studentSurname)}>
-                                                        <Trash/></div>
+                                                    <div
+                                                        className={styles.btn}
+                                                        onClick={() => handleOpenMenu(data)}>
+                                                        <Wrench/>
+                                                    </div>
+                                                    <div
+                                                        className={`${styles.btn} ${styles.deleteBtn}`}
+                                                        onClick={() => data?.id && handleDeleteStudent(data.id, data.studentName, data?.studentSurname)}>
+                                                        <Trash/>
+                                                    </div>
                                                 </div>
                                             </div>
                                         ))
@@ -234,7 +300,7 @@ export const TablesPage = () => {
                                     variant="outlined"
                                     shape="rounded"
                                     size="large"
-                                    page={currentPage}
+                                    page={currentStudentPage}
                                     onChange={handlePageChange}
                                 />
                             </Stack>
@@ -285,10 +351,12 @@ export const TablesPage = () => {
                                                 <div className={`${styles.options} ${styles.cell}`}>
                                                     <div className={styles.btn}
                                                          onClick={() => handleOpenLessonsMenu(data)}>
-                                                        <Wrench/></div>
-                                                    <div className={styles.btn}
+                                                        <Wrench/>
+                                                    </div>
+                                                    <div className={`${styles.btn} ${styles.deleteBtn}`}
                                                          onClick={() => data?.id && handleDeleteLesson(data.id, data.lessonName)}>
-                                                        <Trash/></div>
+                                                        <Trash/>
+                                                    </div>
                                                 </div>
                                             </div>
                                         ))
@@ -317,11 +385,10 @@ export const TablesPage = () => {
 
                     <div className={styles.tableWrapper}>
                         <div className={styles.infoContainer}>
-                            <input value={lessonsSearch} onChange={handleLessonsChange} type="text" name="searchLesson"
+                            <input value={scoresSearch} onChange={handleScoresChange} type="text" name="searchScores"
                                    placeholder="Search..."/>
                             <h1>Scores Table</h1>
                         </div>
-
                         <div className={`${styles.tableBlock} ${styles.wideTable}`}>
                             <div className={`${styles.tableRow} ${styles.topRow}`}>
                                 <div className={`${styles.name} ${styles.cell}`}>Student Name</div>
@@ -332,13 +399,13 @@ export const TablesPage = () => {
                                 <div className={`${styles.score} ${styles.cell}`}>Score</div>
                                 <div className={`${styles.options} ${styles.cell}`}>Options</div>
                             </div>
-                            {filteredLessons.length === 0 && !lessonsDataLoading ? (
+                            {filteredScores.length === 0 && !scoresDataLoading ? (
                                 <div className={styles.noData}>
                                     Nothing found...
                                 </div>
                             ) : (
                                 <>
-                                    {lessonsDataLoading ? (
+                                    {scoresDataLoading ? (
                                         <div className={styles.loader}>
                                             <ThreeCircles
                                                 visible={true}
@@ -350,23 +417,25 @@ export const TablesPage = () => {
 
                                         </div>
                                     ) : (
-                                        currentLessons?.map((data) => (
+                                        currentScores?.map((data) => (
                                             <div key={data?.id} className={`${styles.tableRow} ${styles.bottomRow}`}>
-                                                <div className={`${styles.no} ${styles.cell}`}>{data?.lessonName}</div>
+                                                <div
+                                                    className={`${styles.name} ${styles.cell}`}>{data?.studentFullName}</div>
                                                 <div
                                                     className={`${styles.name} ${styles.cell}`}>{data?.teacherName}</div>
                                                 <div
-                                                    className={`${styles.surname} ${styles.cell}`}>{data?.teacherNo}</div>
+                                                    className={`${styles.name} ${styles.cell}`}>{data?.lessonName}</div>
                                                 <div className={`${styles.class} ${styles.cell}`}>{data?.class}</div>
-                                                <div className={`${styles.date} ${styles.cell}`}>{data?.class}</div>
-                                                <div className={`${styles.score} ${styles.cell}`}>{data?.class}</div>
+                                                <div className={`${styles.date} ${styles.cell}`}>
+                                                    {formatDateTime(data?.date)}
+                                                </div>
+                                                <div className={`${styles.score} ${styles.cell}`}>{data?.score}</div>
                                                 <div className={`${styles.options} ${styles.cell}`}>
-                                                    <div className={styles.btn}
-                                                         onClick={() => handleOpenLessonsMenu(data)}>
-                                                        <Wrench/></div>
-                                                    <div className={styles.btn}
-                                                         onClick={() => data?.id && handleDeleteLesson(data.id, data.lessonName)}>
-                                                        <Trash/></div>
+                                                    <div
+                                                        className={`${styles.btn} ${styles.deleteBtn}`}
+                                                        onClick={() => data?.id && handleDeleteScore(data.id)}>
+                                                        <Trash/>
+                                                    </div>
                                                 </div>
                                             </div>
                                         ))
@@ -382,18 +451,16 @@ export const TablesPage = () => {
                                             color: 'white',
                                         },
                                     }}
-                                    count={Math.ceil(filteredLessons?.length / itemsPerPage)}
+                                    count={Math.ceil(filteredScores?.length / itemsPerPage)}
                                     variant="outlined"
                                     shape="rounded"
                                     size="large"
-                                    page={currentLessonsPage}
-                                    onChange={handleLessonsPageChange}
+                                    page={currentScoresPage}
+                                    onChange={handleScoresPageChange}
                                 />
                             </Stack>
                         </div>
                     </div>
-
-
                 </div>
             </main>
             <Footer/>

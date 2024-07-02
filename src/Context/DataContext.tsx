@@ -54,7 +54,7 @@ const defaults: DataContextType = {
     },
     handleDeleteLesson: async () => {
     },
-    handleDeleteScores: async () => {
+    handleDeleteScore: async () => {
     }
 }
 export const DataContext = createContext<DataContextType>(defaults);

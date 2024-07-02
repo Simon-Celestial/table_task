@@ -60,6 +60,17 @@
         background: #424446;
         min-height: 249px;
         overflow: hidden;
+        &.wideTable {
+          .tableRow {
+            .options {
+              max-width: 100px;
+            }
+            .score {
+              max-width: 100px;
+              justify-content: center;
+            }
+          }
+        }
 
         .noData {
           color: white;
@@ -69,7 +80,6 @@
         .loader{
           margin: auto;
         }
-
         .tableRow {
           display: flex;
           width: 100%;
@@ -126,25 +136,20 @@
 
             .btn {
               cursor: pointer;
-
-              &:nth-child(2) {
-                &:hover {
-                  svg {
-                    color: red;
-                    transform: scale(1.1);
-                  }
-                }
-              }
-
-              &:nth-child(1) {
-                &:hover {
+              &:hover {
                   svg {
                     color: orange;
                     transform: scale(1.1);
                   }
                 }
-              }
+              &.deleteBtn {
+                &:hover {
+                  svg {
+                    color: red!important;
+                  }
+                }
 
+              }
               svg {
                 font-size: 25px;
                 transition: color $transition, transform $transition;
