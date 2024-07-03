@@ -4,7 +4,7 @@
   display: flex;
   width: 100%;
   justify-content: center;
-  padding: 100px 30px;
+  padding: 100px 15px;
   background: $gray-background;
 
   .tablesContent {
@@ -168,5 +168,41 @@
 
     }
 
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .tablesMain {
+    .tablesContent {
+      .tableWrapper {
+        .overFlow{
+          overflow-y: hidden;
+        }
+        .tableBlock {
+          width: 1200px;
+          overflow-y: auto;
+        }
+      }
+    }
+  }
+}
+@media screen and (max-width: 800px) {
+  .tablesMain {
+    .tablesContent {
+      gap: 25px;
+      .tableWrapper {
+        .infoContainer {
+          flex-direction: column;
+          align-items: start;
+          gap: 10px;
+          input {
+            order: 2;
+          }
+          h1 {
+            order: 1;
+          }
+        }
+      }
+    }
   }
 }

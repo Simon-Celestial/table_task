@@ -25,7 +25,6 @@ const languages: Language[] = [
 
 const LanguageSelection = () => {
     const [languageOpen, setLanguageOpen] = useState<boolean>(false);
-    const [languagePositions, setLanguagePositions] = useState<boolean>(false);
 
     const { i18n } = useTranslation();
 
@@ -33,21 +32,6 @@ const LanguageSelection = () => {
         i18n.changeLanguage(language);
     }, [i18n.changeLanguage]);
 
-    useEffect(() => {
-        const handleScroll = () => {
-            if (window.scrollY > 300) {
-                setLanguagePositions(true);
-            } else {
-                setLanguagePositions(false);
-            }
-        };
-
-        window.addEventListener('scroll', handleScroll);
-
-        return () => {
-            window.removeEventListener('scroll', handleScroll);
-        };
-    }, []);
 
     const languageOpenHandler = useCallback((event: React.MouseEvent<HTMLDivElement>) => {
         event.stopPropagation();
@@ -76,7 +60,7 @@ const LanguageSelection = () => {
     }, []);
 
     return (
-        <div className={`${styles.languageSelection} ${languagePositions ? styles.replaced : ""}`}
+        <div className={`${styles.languageSelection}`}
              onClick={languageOpenHandler}>
             <span>
                 {

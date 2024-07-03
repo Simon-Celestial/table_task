@@ -251,7 +251,7 @@ export const FormsPage = () => {
                     <div className={styles.formContent}>
                         <form onSubmit={handleStudentSubmit} className={styles.formContainer}>
                             <h1>{t('studentForm')}</h1>
-                            <div className={styles.formContent}>
+                            <div className={styles.formItems}>
                                 <div className={styles.inputBlock}>
                                     {t('studentName')}
                                     <input
@@ -318,7 +318,7 @@ export const FormsPage = () => {
                         </form>
                         <form onSubmit={handleLessonSubmit} className={styles.formContainer}>
                             <h1>{t("lessonForm")}</h1>
-                            <div className={styles.formContent}>
+                            <div className={styles.formItems}>
                                 <div className={styles.inputBlock}>
                                     {t("lessonName")}
                                     <input
@@ -385,10 +385,10 @@ export const FormsPage = () => {
                         </form>
                         <form onSubmit={handleScoresSubmit} className={styles.formContainer}>
                             <h1>{t("scoresForm")}</h1>
-                            <div className={styles.formContent}>
+                            <div className={styles.formItems}>
                                 <div className={styles.inputBlock}>
                                     {t("selectStudent")}
-                                    <Box sx={{minWidth: 120, border: '1px solid white', borderRadius: "5px"}}>
+                                    <Box sx={{minWidth: 120, border: '2px solid white', borderRadius: "5px"}}>
                                         <FormControl fullWidth>
                                             <Select
                                                 sx={{
@@ -422,7 +422,7 @@ export const FormsPage = () => {
                                 </div>
                                 <div className={styles.inputBlock}>
                                     {t("selectTeacher")}
-                                    <Box sx={{minWidth: 120, border: '1px solid white', borderRadius: "5px"}}>
+                                    <Box sx={{minWidth: 120, border: '2px solid white', borderRadius: "5px"}}>
                                         <FormControl fullWidth>
                                             <Select
                                                 sx={{
@@ -456,7 +456,7 @@ export const FormsPage = () => {
                                 </div>
                                 <div className={styles.inputBlock}>
                                     {t("selectLesson")}
-                                    <Box sx={{minWidth: 120, border: '1px solid white', borderRadius: "5px"}}>
+                                    <Box sx={{minWidth: 120, border: '2px solid white', borderRadius: "5px"}}>
                                         <FormControl fullWidth>
                                             <Select
                                                 sx={{

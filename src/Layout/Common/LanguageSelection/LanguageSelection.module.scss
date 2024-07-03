@@ -1,12 +1,12 @@
 @import "../../../Variables/Variables.module";
 
 .languageSelection {
-  padding: 15px 35px;
+  padding: 15px 30px;
   display: flex;
   align-items: center;
   gap: 15px;
   cursor: pointer;
-  left: 10px;
+  left: 30px;
   top: 65px;
   background-color: #424446;
   border: 1px solid white;
@@ -14,10 +14,6 @@
   position: fixed;
   z-index: 50;
   transition: top 0.4s linear;
-  &.replaced {
-    top: 110px;
-  }
-
   span {
     font-size: 16px;
     color: white;
@@ -76,31 +72,19 @@
     }
   }
 }
-@media screen and (max-width: 1400px) {
+@media screen and (max-width: 1230px) {
   .languageSelection {
-    padding: 8px 12.5px;
+    left: 15px;
+  }
+}
+@media screen and (max-width: 1500px) {
+  .languageSelection {
+    padding: 8px 35px;
     top: 10px;
-    &.replaced {
-      top: 105px;
-    }
     .languageDropdown {
       &.languageVisible {
         top: 40px;
       }
-    }
-  }
-}
-@media screen and (max-width: 1000px) {
-  .languageSelection {
-    &.replaced {
-      top: 95px;
-    }
-  }
-}
-@media screen and (max-width: 800px) {
-  .languageSelection {
-    &.replaced {
-      top: 90px;
     }
   }
 }

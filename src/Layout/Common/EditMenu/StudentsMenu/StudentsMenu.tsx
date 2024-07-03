@@ -1,4 +1,4 @@
-import styles from "../EditMenu.module.scss";
+import styles from "../Menu.module.scss";
 import React, {useCallback, useContext, useEffect, useState} from "react";
 import {StudentDetails} from "../../../../types.ts";
 import {XCircle} from "@phosphor-icons/react";

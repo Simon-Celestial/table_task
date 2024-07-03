@@ -22,6 +22,6 @@ export interface ScoreDetails {
     lessonName: string;
     class: string;
     date: string;
-    score: string;
+    score: number | string;
 }
 

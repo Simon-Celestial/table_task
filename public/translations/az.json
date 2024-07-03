@@ -36,7 +36,11 @@
   "lessonClass": "Dərs sinifi",
   "editClass": "Sinifi redaktə et",
   "editSurname": "Soyadı redaktə et",
-  "edit": "Redaktə et"
+  "edit": "Redaktə et",
+  "editLesson": "Dərsi redaktə et",
+  "editScores" : "Xalları redaktə edin",
+  "editScore" : "Balı redaktə et",
+  "editDate": "Tarixi redaktə et"
 
 
 

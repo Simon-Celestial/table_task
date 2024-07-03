@@ -12,6 +12,7 @@ import {StudentsMenu} from "../../Common/EditMenu/StudentsMenu/StudentsMenu.tsx"
 // @ts-ignore
 import {LessonsMenu} from "../../Common/EditMenu/LessonsMenu/LessonsMenu.tsx";
 import {useTranslation} from "react-i18next";
+import {ScoresMenu} from "../../Common/EditMenu/ScoresMenu/ScoresMenu.tsx";
 
 // PAGINATION
 const itemsPerPage = 5;
@@ -55,10 +56,13 @@ export const TablesPage = () => {
 
     const [selectedItem, setSelectedItem] = useState<StudentDetails | null>(null);
     const [selectedLesson, setSelectedLesson] = useState<LessonDetails | null>(null);
+    const [selectedScore, setSelectedScore] = useState<ScoreDetails | null>(null);
 
 
     const [studentMenuOpen, setStudentMenuOpen] = useState(false);
     const [lessonsMenuOpen, setLessonsMenuOpen] = useState(false);
+    const [scoresMenuOpen, setScoresMenuOpen] = useState(false);
+
 
     const {t} = useTranslation();
 
@@ -126,7 +130,7 @@ export const TablesPage = () => {
             (data) =>
                 data.studentFullName.toLowerCase().includes(scoresSearch.toLowerCase()) ||
                 data.teacherName.toLowerCase().includes(scoresSearch.toLowerCase()) ||
-                data.class.toLowerCase().includes(scoresSearch.toLowerCase())
+                data.lessonName.toLowerCase().includes(scoresSearch.toLowerCase())
         );
     }, [sortedScores, scoresSearch]);
 
@@ -201,6 +205,7 @@ export const TablesPage = () => {
             setSelectedItem(null)
         }
         setLessonsMenuOpen(false);
+        setScoresMenuOpen(false)
         setStudentMenuOpen(true);
     }, []);
 
@@ -211,8 +216,21 @@ export const TablesPage = () => {
             setSelectedLesson(null)
         }
         setStudentMenuOpen(false)
+        setScoresMenuOpen(false);
         setLessonsMenuOpen(true);
     }, []);
+
+    const handleOpenScoresMenu = useCallback((data: ScoreDetails) => {
+        if (data) {
+            setSelectedScore(data);
+        } else {
+            setSelectedScore(null)
+        }
+        setStudentMenuOpen(false)
+        setLessonsMenuOpen(false);
+        setScoresMenuOpen(true);
+    }, []);
+
 
     return (
         <>
@@ -229,6 +247,12 @@ export const TablesPage = () => {
                 setLessonsMenuOpen={setLessonsMenuOpen}
                 setSelectedLesson={setSelectedLesson}
             />
+            <ScoresMenu
+                selectedScore={selectedScore}
+                scoresMenuOpen={scoresMenuOpen}
+                setScoresMenuOpen={setScoresMenuOpen}
+                setSelectedScore={setSelectedScore}
+            />
             <main className={styles.tablesMain}>
                 <div className={styles.tablesContent}>
                     <div className={styles.tableWrapper}>
@@ -237,58 +261,62 @@ export const TablesPage = () => {
                                    placeholder={t('search') + "..."}/>
                             <h1>{t('studentsTable')}</h1>
                         </div>
-
-                        <div className={styles.tableBlock}>
-                            <div className={`${styles.tableRow} ${styles.topRow}`}>
-                                <div className={`${styles.no} ${styles.cell}`}>{t('studentNo')}</div>
-                                <div className={`${styles.name} ${styles.cell}`}>{t('studentName')}</div>
-                                <div className={`${styles.surname} ${styles.cell}`}>{t('studentSurname')}</div>
-                                <div className={`${styles.class} ${styles.cell}`}>{t('class')}</div>
-                                <div className={`${styles.options} ${styles.cell}`}>{t('options')}</div>
-                            </div>
-                            {filteredStudents.length === 0 && !studentsDataLoading ? (
-                                <div className={styles.noData}>
-                                    {t('nothing')}...
+                        <div className={styles.overFlow}>
+                            <div className={styles.tableBlock}>
+                                <div className={`${styles.tableRow} ${styles.topRow}`}>
+                                    <div className={`${styles.no} ${styles.cell}`}>{t('studentNo')}</div>
+                                    <div className={`${styles.name} ${styles.cell}`}>{t('studentName')}</div>
+                                    <div className={`${styles.surname} ${styles.cell}`}>{t('studentSurname')}</div>
+                                    <div className={`${styles.class} ${styles.cell}`}>{t('class')}</div>
+                                    <div className={`${styles.options} ${styles.cell}`}>{t('options')}</div>
                                 </div>
-                            ) : (
-                                <>
-                                    {studentsDataLoading ? (
-                                        <div className={styles.loader}>
-                                            <ThreeCircles
-                                                visible={true}
-                                                height="45"
-                                                width="45"
-                                                color="white"
-                                                ariaLabel="three-circles-loading"
-                                            />
+                                {filteredStudents.length === 0 && !studentsDataLoading ? (
+                                    <div className={styles.noData}>
+                                        {t('nothing')}...
+                                    </div>
+                                ) : (
+                                    <>
+                                        {studentsDataLoading ? (
+                                            <div className={styles.loader}>
+                                                <ThreeCircles
+                                                    visible={true}
+                                                    height="45"
+                                                    width="45"
+                                                    color="white"
+                                                    ariaLabel="three-circles-loading"
+                                                />
 
-                                        </div>
-                                    ) : (
-                                        currentStudents?.map((data) => (
-                                            <div key={data?.id} className={`${styles.tableRow} ${styles.bottomRow}`}>
-                                                <div className={`${styles.no} ${styles.cell}`}>{data?.studentNo}</div>
-                                                <div
-                                                    className={`${styles.name} ${styles.cell}`}>{data?.studentName}</div>
-                                                <div
-                                                    className={`${styles.surname} ${styles.cell}`}>{data?.studentSurname}</div>
-                                                <div className={`${styles.class} ${styles.cell}`}>{data?.class}</div>
-                                                <div className={`${styles.options} ${styles.cell}`}>
+                                            </div>
+                                        ) : (
+                                            currentStudents?.map((data) => (
+                                                <div key={data?.id}
+                                                     className={`${styles.tableRow} ${styles.bottomRow}`}>
                                                     <div
-                                                        className={styles.btn}
-                                                        onClick={() => handleOpenMenu(data)}>
-                                                        <Wrench/>
-                                                    </div>
+                                                        className={`${styles.no} ${styles.cell}`}>{data?.studentNo}</div>
                                                     <div
-                                                        className={`${styles.btn} ${styles.deleteBtn}`}
-                                                        onClick={() => data?.id && handleDeleteStudent(data.id, data.studentName, data?.studentSurname)}>
-                                                        <Trash/>
+                                                        className={`${styles.name} ${styles.cell}`}>{data?.studentName}</div>
+                                                    <div
+                                                        className={`${styles.surname} ${styles.cell}`}>{data?.studentSurname}</div>
+                                                    <div
+                                                        className={`${styles.class} ${styles.cell}`}>{data?.class}</div>
+                                                    <div className={`${styles.options} ${styles.cell}`}>
+                                                        <div
+                                                            className={styles.btn}
+                                                            onClick={() => handleOpenMenu(data)}>
+                                                            <Wrench/>
+                                                        </div>
+                                                        <div
+                                                            className={`${styles.btn} ${styles.deleteBtn}`}
+                                                            onClick={() => data?.id && handleDeleteStudent(data.id, data.studentName, data?.studentSurname)}>
+                                                            <Trash/>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        ))
-                                    )}
-                                </>
-                            )}
+                                            ))
+                                        )}
+                                    </>
+                                )}
+                            </div>
                         </div>
                         <div className={styles.tablePagination}>
                             <Stack spacing={1}>
@@ -315,57 +343,62 @@ export const TablesPage = () => {
                                    placeholder={t('search') + "..."}/>
                             <h1>{t('lessonsTable')}</h1>
                         </div>
-
-                        <div className={styles.tableBlock}>
-                            <div className={`${styles.tableRow} ${styles.topRow}`}>
-                                <div className={`${styles.name} ${styles.cell}`}>{t('lessonName')}</div>
-                                <div className={`${styles.name} ${styles.cell}`}>{t('teacherName')}</div>
-                                <div className={`${styles.no} ${styles.cell}`}>{t('teacherNo')}</div>
-                                <div className={`${styles.class} ${styles.cell}`}>{t('class')}</div>
-                                <div className={`${styles.options} ${styles.cell}`}>{t('options')}</div>
-                            </div>
-                            {filteredLessons.length === 0 && !lessonsDataLoading ? (
-                                <div className={styles.noData}>
-                                    {t('nothing')}...
+                        <div className={styles.overFlow}>
+                            <div className={styles.tableBlock}>
+                                <div className={`${styles.tableRow} ${styles.topRow}`}>
+                                    <div className={`${styles.name} ${styles.cell}`}>{t('lessonName')}</div>
+                                    <div className={`${styles.name} ${styles.cell}`}>{t('teacherName')}</div>
+                                    <div className={`${styles.no} ${styles.cell}`}>{t('teacherNo')}</div>
+                                    <div className={`${styles.class} ${styles.cell}`}>{t('class')}</div>
+                                    <div className={`${styles.options} ${styles.cell}`}>{t('options')}</div>
                                 </div>
-                            ) : (
-                                <>
-                                    {lessonsDataLoading ? (
-                                        <div className={styles.loader}>
-                                            <ThreeCircles
-                                                visible={true}
-                                                height="45"
-                                                width="45"
-                                                color="white"
-                                                ariaLabel="three-circles-loading"
-                                            />
+                                {filteredLessons.length === 0 && !lessonsDataLoading ? (
+                                    <div className={styles.noData}>
+                                        {t('nothing')}...
+                                    </div>
+                                ) : (
+                                    <>
+                                        {lessonsDataLoading ? (
+                                            <div className={styles.loader}>
+                                                <ThreeCircles
+                                                    visible={true}
+                                                    height="45"
+                                                    width="45"
+                                                    color="white"
+                                                    ariaLabel="three-circles-loading"
+                                                />
 
-                                        </div>
-                                    ) : (
-                                        currentLessons?.map((data) => (
-                                            <div key={data?.id} className={`${styles.tableRow} ${styles.bottomRow}`}>
-                                                <div className={`${styles.no} ${styles.cell}`}>{data?.lessonName}</div>
-                                                <div
-                                                    className={`${styles.name} ${styles.cell}`}>{data?.teacherName}</div>
-                                                <div
-                                                    className={`${styles.surname} ${styles.cell}`}>{data?.teacherNo}</div>
-                                                <div className={`${styles.class} ${styles.cell}`}>{data?.class}</div>
-                                                <div className={`${styles.options} ${styles.cell}`}>
-                                                    <div className={styles.btn}
-                                                         onClick={() => handleOpenLessonsMenu(data)}>
-                                                        <Wrench/>
-                                                    </div>
-                                                    <div className={`${styles.btn} ${styles.deleteBtn}`}
-                                                         onClick={() => data?.id && handleDeleteLesson(data.id, data.lessonName)}>
-                                                        <Trash/>
+                                            </div>
+                                        ) : (
+                                            currentLessons?.map((data) => (
+                                                <div key={data?.id}
+                                                     className={`${styles.tableRow} ${styles.bottomRow}`}>
+                                                    <div
+                                                        className={`${styles.no} ${styles.cell}`}>{data?.lessonName}</div>
+                                                    <div
+                                                        className={`${styles.name} ${styles.cell}`}>{data?.teacherName}</div>
+                                                    <div
+                                                        className={`${styles.surname} ${styles.cell}`}>{data?.teacherNo}</div>
+                                                    <div
+                                                        className={`${styles.class} ${styles.cell}`}>{data?.class}</div>
+                                                    <div className={`${styles.options} ${styles.cell}`}>
+                                                        <div className={styles.btn}
+                                                             onClick={() => handleOpenLessonsMenu(data)}>
+                                                            <Wrench/>
+                                                        </div>
+                                                        <div className={`${styles.btn} ${styles.deleteBtn}`}
+                                                             onClick={() => data?.id && handleDeleteLesson(data.id, data.lessonName)}>
+                                                            <Trash/>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        ))
-                                    )}
-                                </>
-                            )}
+                                            ))
+                                        )}
+                                    </>
+                                )}
+                            </div>
                         </div>
+
                         <div className={styles.tablePagination}>
                             <Stack spacing={1}>
                                 <Pagination
@@ -391,61 +424,73 @@ export const TablesPage = () => {
                                    placeholder={t('search') + "..."}/>
                             <h1>{t('scoresTable')}</h1>
                         </div>
-                        <div className={`${styles.tableBlock} ${styles.wideTable}`}>
-                            <div className={`${styles.tableRow} ${styles.topRow}`}>
-                                <div className={`${styles.name} ${styles.cell}`}>{t('studentName')}</div>
-                                <div className={`${styles.name} ${styles.cell}`}>{t('lessonName')}</div>
-                                <div className={`${styles.no} ${styles.cell}`}>{t('teacherNo')}</div>
-                                <div className={`${styles.class} ${styles.cell}`}>{t('class')}</div>
-                                <div className={`${styles.date} ${styles.cell}`}>{t('dateTime')}</div>
-                                <div className={`${styles.score} ${styles.cell}`}>{t('score')}</div>
-                                <div className={`${styles.options} ${styles.cell}`}>{t('options')}</div>
-                            </div>
-                            {filteredScores.length === 0 && !scoresDataLoading ? (
-                                <div className={styles.noData}>
-                                    {t('nothing')}...
+                        <div className={styles.overFlow}>
+                            <div className={`${styles.tableBlock} ${styles.wideTable}`}>
+                                <div className={`${styles.tableRow} ${styles.topRow}`}>
+                                    <div className={`${styles.name} ${styles.cell}`}>{t('studentName')}</div>
+                                    <div className={`${styles.name} ${styles.cell}`}>{t('lessonName')}</div>
+                                    <div className={`${styles.no} ${styles.cell}`}>{t('teacherName')}</div>
+                                    <div className={`${styles.class} ${styles.cell}`}>{t('class')}</div>
+                                    <div className={`${styles.date} ${styles.cell}`}>{t('dateTime')}</div>
+                                    <div className={`${styles.score} ${styles.cell}`}>{t('score')}</div>
+                                    <div className={`${styles.options} ${styles.cell}`}>{t('options')}</div>
                                 </div>
-                            ) : (
-                                <>
-                                    {scoresDataLoading ? (
-                                        <div className={styles.loader}>
-                                            <ThreeCircles
-                                                visible={true}
-                                                height="45"
-                                                width="45"
-                                                color="white"
-                                                ariaLabel="three-circles-loading"
-                                            />
+                                {filteredScores.length === 0 && !scoresDataLoading ? (
+                                    <div className={styles.noData}>
+                                        {t('nothing')}...
+                                    </div>
+                                ) : (
+                                    <>
+                                        {scoresDataLoading ? (
+                                            <div className={styles.loader}>
+                                                <ThreeCircles
+                                                    visible={true}
+                                                    height="45"
+                                                    width="45"
+                                                    color="white"
+                                                    ariaLabel="three-circles-loading"
+                                                />
 
-                                        </div>
-                                    ) : (
-                                        currentScores?.map((data) => (
-                                            <div key={data?.id} className={`${styles.tableRow} ${styles.bottomRow}`}>
-                                                <div
-                                                    className={`${styles.name} ${styles.cell}`}>{data?.studentFullName}</div>
-                                                <div
-                                                    className={`${styles.name} ${styles.cell}`}>{data?.teacherName}</div>
-                                                <div
-                                                    className={`${styles.name} ${styles.cell}`}>{data?.lessonName}</div>
-                                                <div className={`${styles.class} ${styles.cell}`}>{data?.class}</div>
-                                                <div className={`${styles.date} ${styles.cell}`}>
-                                                    {formatDateTime(data?.date)}
-                                                </div>
-                                                <div className={`${styles.score} ${styles.cell}`}>{data?.score}</div>
-                                                <div className={`${styles.options} ${styles.cell}`}>
+                                            </div>
+                                        ) : (
+                                            currentScores?.map((data) => (
+                                                <div key={data?.id}
+                                                     className={`${styles.tableRow} ${styles.bottomRow}`}>
                                                     <div
-                                                        className={`${styles.btn} ${styles.deleteBtn}`}
-                                                        onClick={() => data?.id && handleDeleteScore(data.id)}>
-                                                        <Trash/>
+                                                        className={`${styles.name} ${styles.cell}`}>{data?.studentFullName}</div>
+                                                    <div
+                                                        className={`${styles.name} ${styles.cell}`}>{data?.lessonName}</div>
+                                                    <div
+                                                        className={`${styles.name} ${styles.cell}`}>{data?.teacherName}</div>
+                                                    <div
+                                                        className={`${styles.class} ${styles.cell}`}>{data?.class}</div>
+                                                    <div className={`${styles.date} ${styles.cell}`}>
+                                                        {formatDateTime(data?.date)}
+                                                    </div>
+                                                    <div
+                                                        className={`${styles.score} ${styles.cell}`}>{data?.score}</div>
+                                                    <div className={`${styles.options} ${styles.cell}`}>
+                                                        <div
+                                                            className={styles.btn}
+                                                            onClick={() => handleOpenScoresMenu(data)}>
+                                                            <Wrench/>
+                                                        </div>
+                                                        <div
+                                                            className={`${styles.btn} ${styles.deleteBtn}`}
+                                                            onClick={() => data?.id && handleDeleteScore(data.id)}>
+                                                            <Trash/>
+                                                        </div>
                                                     </div>
                                                 </div>
-                                            </div>
-                                        ))
-                                    )}
-                                </>
-                            )}
+                                            ))
+                                        )}
+                                    </>
+                                )}
+                            </div>
+
                         </div>
                         <div className={styles.tablePagination}>
+
                             <Stack spacing={1}>
                                 <Pagination
                                     sx={{

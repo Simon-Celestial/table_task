@@ -32,7 +32,7 @@
           letter-spacing: 1px;
           margin-bottom: 25px;
         }
-        .formContent {
+        .formItems {
           display: flex;
           flex-direction: column;
           width: 100%;
@@ -73,6 +73,39 @@
               background-color: rgba(255, 165, 0, 0.6);
             }
           }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 1200px) {
+  .formsMain {
+    padding: 100px 15px;
+  .formSection {
+    .formContent {
+      gap: 10px;
+    }
+  }
+  }
+}
+
+@media screen and (max-width: 1000px) {
+  .formsMain {
+    .formSection {
+      .formContent {
+        flex-direction: column;
+        gap: 25px;
+        .formContainer {
+          max-width: unset;
+          padding: 25px 25px 35px 25px;
+          .formItems{
+            .addBtn {
+              max-width: 300px;
+              margin: 15px auto 0 auto;
+            }
+          }
+
         }
       }
     }

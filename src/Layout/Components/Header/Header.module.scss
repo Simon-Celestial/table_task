@@ -36,3 +36,18 @@
     }
   }
 }
+
+@media screen and (max-width: 600px) {
+  .headerWrapper {
+    padding: 20px 15px;
+    .headerContent {
+      justify-content: end;
+      .navEntity {
+        a {
+          padding: 10px;
+          font-size: 16px;
+        }
+      }
+    }
+  }
+}

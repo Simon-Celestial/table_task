@@ -2,7 +2,7 @@
 
 .wrapper {
     position: fixed;
-    bottom: 5px;
+    bottom: 15px;
     transition: right $transition;
     width: 45px;
     height: 45px;
@@ -14,14 +14,14 @@
     justify-content: center;
     font-size: 25px;
     pointer-events: none;
-    right: -45px;
+    right: -100px;
     border: 2px solid white;
     border-radius: 50%;
     z-index: 10;
     &.visible {
         opacity: 1;
         pointer-events: all;
-        right: 5px;
+        right: 15px;
     }
 }
 @media screen and (max-width: 800px) {

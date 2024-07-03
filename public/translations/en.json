@@ -20,7 +20,7 @@
   "studentClass": "Student Class",
   "studentNo": "Student No",
   "studentSurname": "Student Surname",
-  "studentName": "StudentName",
+  "studentName": "Student Name",
   "studentForm": "Student Form",
   "notSelected": "Not Selected",
   "copyright": "Copyright © 2024 Ziya Gasimli",
@@ -30,14 +30,20 @@
   "nothing": "Nothing Found",
   "lessonsTable": "Lessons Table",
   "scoresTable": "Scores Table",
-
   "editStudent": "Edit Student",
   "editName": "Edit name",
   "editNo" : "Edit No",
   "lessonClass": "Lesson Class",
   "editClass" : "Edit class",
   "editSurname": "Edit surname",
-  "edit": "Edit"
+  "edit": "Edit",
+  "editLesson": "Edit Lesson",
+  "editScores" : "Edit Scores",
+
+  "editScore" : "Edit score",
+  "editDate": "Edit date"
+
+
 
 
 

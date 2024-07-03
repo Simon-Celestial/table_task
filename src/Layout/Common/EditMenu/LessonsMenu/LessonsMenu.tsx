@@ -1,4 +1,4 @@
-import styles from "../EditMenu.module.scss";
+import styles from "../Menu.module.scss";
 import React, {useCallback, useContext, useEffect, useState} from "react";
 import {LessonDetails} from "../../../../types.ts";
 import {XCircle} from "@phosphor-icons/react";
@@ -114,13 +114,13 @@ export const LessonsMenu: React.FC<EditMenuProps> = (
 
 
     return (
-        <div className={`${styles.editOverlay} ${lessonsMenuOpen ? styles.lessonMenuActive : ''}`}>
+        <div className={`${styles.editOverlay} ${lessonsMenuOpen ? styles.menuActive : ''}`}>
             <div className={styles.menuWrapper}>
                 <div className={styles.closeMenu} onClick={handleCloseMenu}>
                     <XCircle/>
                 </div>
                 <div className={styles.head}>
-                    <h1>{t('editStudent')}</h1>
+                    <h1>{t('editLesson')}</h1>
                 </div>
                 <form onSubmit={handleUpdateLesson} className={styles.body}>
                     <div className={styles.inputWrapper}>

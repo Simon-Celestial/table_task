@@ -21,14 +21,6 @@
       right: 0;
     }
   }
-  &.lessonMenuActive {
-    opacity: 1;
-    pointer-events: auto;
-
-    .menuWrapper {
-      right: 0;
-    }
-  }
 
   .menuWrapper {
     display: flex;
@@ -127,6 +119,15 @@
         }
       }
 
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .editOverlay {
+    z-index: 100;
+    .menuWrapper {
+      max-width: unset;
     }
   }
 }
