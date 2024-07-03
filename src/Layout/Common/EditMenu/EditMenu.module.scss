@@ -41,7 +41,7 @@
     width: 100%;
     background: $gray-background;
     border-left: 2px solid white;
-    padding: 50px 25px;
+    padding: 75px 25px 25px 25px;
     top: 0;
     align-items: center;
 
@@ -71,6 +71,7 @@
         font-size: 25px;
         color: white;
         text-transform: uppercase;
+        text-align: center;
       }
     }
 

@@ -6,6 +6,7 @@ import {Bounce, toast} from "react-toastify";
 import {DataContext} from "../../../../Context/DataContext.tsx";
 import axios from "axios";
 import {ThreeCircles} from "react-loader-spinner";
+import {useTranslation} from "react-i18next";
 
 interface StudentMenuProps {
     selectedItem: StudentDetails | null;
@@ -26,6 +27,8 @@ export const StudentsMenu: React.FC<StudentMenuProps> = (
 ) => {
     const {setStudentsDataLoading, update, studentsDataLoading} = useContext(DataContext);
     const [studentEditState, setStudentEditState] = useState<StudentDetails>(selectedItem || studentDefaults);
+
+    const {t} = useTranslation();
 
     useEffect(() => {
         if (selectedItem) {
@@ -117,48 +120,48 @@ export const StudentsMenu: React.FC<StudentMenuProps> = (
                     <XCircle/>
                 </div>
                 <div className={styles.head}>
-                    <h1>Edit Student</h1>
+                    <h1>{t('editStudent')}</h1>
                 </div>
                 <form onSubmit={handleUpdateStudent} className={styles.body}>
                     <div className={styles.inputWrapper}>
-                        Student No
+                        {t('studentNo')}
                         <input
                             name="studentNo"
                             type="number"
                             required
-                            placeholder="Edit No"
+                            placeholder={t('editNo')}
                             value={studentEditState.studentNo}
                             onChange={handleStudentChange}
                         />
                     </div>
                     <div className={styles.inputWrapper}>
-                        Student Name
+                        {t('studentName')}
                         <input
                             name="studentName"
                             type="text"
-                            placeholder="Edit name"
+                            placeholder={t('editName')}
                             required
                             value={studentEditState.studentName}
                             onChange={handleStudentChange}
                         />
                     </div>
                     <div className={styles.inputWrapper}>
-                        Student Surname
+                        {t('studentSurname')}
                         <input
                             name="studentSurname"
                             type="text"
-                            placeholder="Edit surname"
+                            placeholder={t('editSurname')}
                             required
                             value={studentEditState.studentSurname}
                             onChange={handleStudentChange}
                         />
                     </div>
                     <div className={styles.inputWrapper}>
-                        Student Class
+                        {t('studentClass')}
                         <input
                             name="class"
                             type="text"
-                            placeholder="Edit class"
+                            placeholder={t('editClass')}
                             required
                             value={studentEditState.class}
                             onChange={handleStudentChange}
@@ -181,7 +184,7 @@ export const StudentsMenu: React.FC<StudentMenuProps> = (
                                 ariaLabel="three-circles-loading"
                             />
                             :
-                            "edit"
+                           `${t('edit')}`
                         }
                     </button>
                 </form>

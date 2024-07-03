@@ -11,6 +11,7 @@ import {StudentsMenu} from "../../Common/EditMenu/StudentsMenu/StudentsMenu.tsx"
 // eslint-disable-next-line @typescript-eslint/ban-ts-comment
 // @ts-ignore
 import {LessonsMenu} from "../../Common/EditMenu/LessonsMenu/LessonsMenu.tsx";
+import {useTranslation} from "react-i18next";
 
 // PAGINATION
 const itemsPerPage = 5;
@@ -59,6 +60,7 @@ export const TablesPage = () => {
     const [studentMenuOpen, setStudentMenuOpen] = useState(false);
     const [lessonsMenuOpen, setLessonsMenuOpen] = useState(false);
 
+    const {t} = useTranslation();
 
     const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
         setStudentSearch(e.target.value)
@@ -232,21 +234,21 @@ export const TablesPage = () => {
                     <div className={styles.tableWrapper}>
                         <div className={styles.infoContainer}>
                             <input value={studentsSearch} onChange={handleChange} type="text" name="searchStudent"
-                                   placeholder="Search..."/>
-                            <h1>Students Table</h1>
+                                   placeholder={t('search') + "..."}/>
+                            <h1>{t('studentsTable')}</h1>
                         </div>
 
                         <div className={styles.tableBlock}>
                             <div className={`${styles.tableRow} ${styles.topRow}`}>
-                                <div className={`${styles.no} ${styles.cell}`}>Student No</div>
-                                <div className={`${styles.name} ${styles.cell}`}>Student Name</div>
-                                <div className={`${styles.surname} ${styles.cell}`}>Student Surname</div>
-                                <div className={`${styles.class} ${styles.cell}`}>Class</div>
-                                <div className={`${styles.options} ${styles.cell}`}>Options</div>
+                                <div className={`${styles.no} ${styles.cell}`}>{t('studentNo')}</div>
+                                <div className={`${styles.name} ${styles.cell}`}>{t('studentName')}</div>
+                                <div className={`${styles.surname} ${styles.cell}`}>{t('studentSurname')}</div>
+                                <div className={`${styles.class} ${styles.cell}`}>{t('class')}</div>
+                                <div className={`${styles.options} ${styles.cell}`}>{t('options')}</div>
                             </div>
                             {filteredStudents.length === 0 && !studentsDataLoading ? (
                                 <div className={styles.noData}>
-                                    Nothing found...
+                                    {t('nothing')}...
                                 </div>
                             ) : (
                                 <>
@@ -310,21 +312,21 @@ export const TablesPage = () => {
                     <div className={styles.tableWrapper}>
                         <div className={styles.infoContainer}>
                             <input value={lessonsSearch} onChange={handleLessonsChange} type="text" name="searchLesson"
-                                   placeholder="Search..."/>
-                            <h1>Lessons Table</h1>
+                                   placeholder={t('search') + "..."}/>
+                            <h1>{t('lessonsTable')}</h1>
                         </div>
 
                         <div className={styles.tableBlock}>
                             <div className={`${styles.tableRow} ${styles.topRow}`}>
-                                <div className={`${styles.name} ${styles.cell}`}>Lesson Name</div>
-                                <div className={`${styles.name} ${styles.cell}`}>Teacher Name</div>
-                                <div className={`${styles.no} ${styles.cell}`}>Teacher No</div>
-                                <div className={`${styles.class} ${styles.cell}`}>Class</div>
-                                <div className={`${styles.options} ${styles.cell}`}>Options</div>
+                                <div className={`${styles.name} ${styles.cell}`}>{t('lessonName')}</div>
+                                <div className={`${styles.name} ${styles.cell}`}>{t('teacherName')}</div>
+                                <div className={`${styles.no} ${styles.cell}`}>{t('teacherNo')}</div>
+                                <div className={`${styles.class} ${styles.cell}`}>{t('class')}</div>
+                                <div className={`${styles.options} ${styles.cell}`}>{t('options')}</div>
                             </div>
                             {filteredLessons.length === 0 && !lessonsDataLoading ? (
                                 <div className={styles.noData}>
-                                    Nothing found...
+                                    {t('nothing')}...
                                 </div>
                             ) : (
                                 <>
@@ -386,22 +388,22 @@ export const TablesPage = () => {
                     <div className={styles.tableWrapper}>
                         <div className={styles.infoContainer}>
                             <input value={scoresSearch} onChange={handleScoresChange} type="text" name="searchScores"
-                                   placeholder="Search..."/>
-                            <h1>Scores Table</h1>
+                                   placeholder={t('search') + "..."}/>
+                            <h1>{t('scoresTable')}</h1>
                         </div>
                         <div className={`${styles.tableBlock} ${styles.wideTable}`}>
                             <div className={`${styles.tableRow} ${styles.topRow}`}>
-                                <div className={`${styles.name} ${styles.cell}`}>Student Name</div>
-                                <div className={`${styles.name} ${styles.cell}`}>Lesson Name</div>
-                                <div className={`${styles.no} ${styles.cell}`}>Teacher No</div>
-                                <div className={`${styles.class} ${styles.cell}`}>Class</div>
-                                <div className={`${styles.date} ${styles.cell}`}>Date-Time</div>
-                                <div className={`${styles.score} ${styles.cell}`}>Score</div>
-                                <div className={`${styles.options} ${styles.cell}`}>Options</div>
+                                <div className={`${styles.name} ${styles.cell}`}>{t('studentName')}</div>
+                                <div className={`${styles.name} ${styles.cell}`}>{t('lessonName')}</div>
+                                <div className={`${styles.no} ${styles.cell}`}>{t('teacherNo')}</div>
+                                <div className={`${styles.class} ${styles.cell}`}>{t('class')}</div>
+                                <div className={`${styles.date} ${styles.cell}`}>{t('dateTime')}</div>
+                                <div className={`${styles.score} ${styles.cell}`}>{t('score')}</div>
+                                <div className={`${styles.options} ${styles.cell}`}>{t('options')}</div>
                             </div>
                             {filteredScores.length === 0 && !scoresDataLoading ? (
                                 <div className={styles.noData}>
-                                    Nothing found...
+                                    {t('nothing')}...
                                 </div>
                             ) : (
                                 <>

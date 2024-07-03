@@ -6,6 +6,7 @@ import {Bounce, toast} from "react-toastify";
 import {DataContext} from "../../../../Context/DataContext.tsx";
 import axios from "axios";
 import {ThreeCircles} from "react-loader-spinner";
+import {useTranslation} from "react-i18next";
 
 interface EditMenuProps {
     selectedLesson: LessonDetails | null;
@@ -26,6 +27,8 @@ export const LessonsMenu: React.FC<EditMenuProps> = (
 ) => {
     const {setLessonsDataLoading, updateLessons, lessonsDataLoading} = useContext(DataContext);
     const [lessonEditState, setLessonEditState] = useState<LessonDetails>(selectedLesson || lessonDefaults);
+
+    const {t} = useTranslation();
 
     useEffect(() => {
         if (selectedLesson) {
@@ -117,48 +120,48 @@ export const LessonsMenu: React.FC<EditMenuProps> = (
                     <XCircle/>
                 </div>
                 <div className={styles.head}>
-                    <h1>Edit Student</h1>
+                    <h1>{t('editStudent')}</h1>
                 </div>
                 <form onSubmit={handleUpdateLesson} className={styles.body}>
                     <div className={styles.inputWrapper}>
-                        Lesson Name
+                        {t('lessonName')}
                         <input
                             name="lessonName"
                             type="text"
                             required
-                            placeholder="Edit name"
+                            placeholder={t('editName')}
                             value={lessonEditState.lessonName}
                             onChange={handleLessonChange}
                         />
                     </div>
                     <div className={styles.inputWrapper}>
-                        Teacher Name
+                        {t('teacherName')}
                         <input
                             name="teacherName"
                             type="text"
-                            placeholder="Edit name"
+                            placeholder={t('editName')}
                             required
                             value={lessonEditState.teacherName}
                             onChange={handleLessonChange}
                         />
                     </div>
                     <div className={styles.inputWrapper}>
-                        Teacher No
+                        {t('teacherNo')}
                         <input
                             name="teacherNo"
                             type="number"
-                            placeholder="Edit no"
+                            placeholder={t('editNo')}
                             required
                             value={lessonEditState.teacherNo}
                             onChange={handleLessonChange}
                         />
                     </div>
                     <div className={styles.inputWrapper}>
-                        Lesson Class
+                        {t('lessonClass')}
                         <input
                             name="class"
                             type="text"
-                            placeholder="Edit class"
+                            placeholder={t('editClass')}
                             required
                             value={lessonEditState.class}
                             onChange={handleLessonChange}
@@ -181,7 +184,7 @@ export const LessonsMenu: React.FC<EditMenuProps> = (
                                 ariaLabel="three-circles-loading"
                             />
                             :
-                            "edit"
+                            `${t('edit')}`
                         }
                     </button>
                 </form>

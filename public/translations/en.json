@@ -1,0 +1,45 @@
+{
+  "forms": "Forms",
+  "tables": "Tables",
+  "welcomeBack": "welcome back",
+  "lessonName": "Lesson Name",
+  "teacherName": "Teacher Name",
+  "teacherNo": "Teacher No",
+  "class": "Class",
+  "addLesson": "Add Lesson",
+  "lessonForm" : "Lesson Form",
+  "addScore": "add score",
+  "dateTime": "Date - Time",
+  "score": "Score",
+  "selectedClass": "Selected Class",
+  "selectLesson": "Select Lesson",
+  "selectTeacher": "Select Teacher",
+  "selectStudent": "Select Student",
+  "scoresForm": "Scores Form",
+  "addStudent": "Add Student",
+  "studentClass": "Student Class",
+  "studentNo": "Student No",
+  "studentSurname": "Student Surname",
+  "studentName": "StudentName",
+  "studentForm": "Student Form",
+  "notSelected": "Not Selected",
+  "copyright": "Copyright © 2024 Ziya Gasimli",
+  "studentsTable": "Student Table",
+  "search": "Search",
+  "options": "Options",
+  "nothing": "Nothing Found",
+  "lessonsTable": "Lessons Table",
+  "scoresTable": "Scores Table",
+
+  "editStudent": "Edit Student",
+  "editName": "Edit name",
+  "editNo" : "Edit No",
+  "lessonClass": "Lesson Class",
+  "editClass" : "Edit class",
+  "editSurname": "Edit surname",
+  "edit": "Edit"
+
+
+
+
+}

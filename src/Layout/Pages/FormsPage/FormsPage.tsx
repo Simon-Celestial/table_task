@@ -8,6 +8,7 @@ import axios from "axios";
 import {ThreeCircles} from "react-loader-spinner";
 import {DataContext} from "../../../Context/DataContext.tsx";
 import {Box, FormControl, MenuItem, Select, SelectChangeEvent} from "@mui/material";
+import {useTranslation} from "react-i18next";
 
 
 const studentDefaults: StudentDetails = {
@@ -49,6 +50,8 @@ export const FormsPage = () => {
 
     const [lessonsForm, setLessonsForm] = useState(lessonDefaults);
     const [scoreForm, setScoreForm] = React.useState(scoreDefaults);
+
+    const {t} = useTranslation();
 
     const uniqueLessons: string[] = useMemo(() => {
         return Array.from(new Set(lessonsData.map(lesson => lesson.lessonName)));
@@ -247,10 +250,10 @@ export const FormsPage = () => {
                 <section className={styles.formSection}>
                     <div className={styles.formContent}>
                         <form onSubmit={handleStudentSubmit} className={styles.formContainer}>
-                            <h1>Students Form</h1>
+                            <h1>{t('studentForm')}</h1>
                             <div className={styles.formContent}>
                                 <div className={styles.inputBlock}>
-                                    Student Name
+                                    {t('studentName')}
                                     <input
                                         type="text"
                                         required
@@ -260,7 +263,7 @@ export const FormsPage = () => {
                                     />
                                 </div>
                                 <div className={styles.inputBlock}>
-                                    Student Surname
+                                    {t('studentSurname')}
                                     <input
                                         type="text"
                                         required
@@ -270,7 +273,7 @@ export const FormsPage = () => {
                                     />
                                 </div>
                                 <div className={styles.inputBlock}>
-                                    Student No
+                                    {t('studentNo')}
                                     <input
                                         type="number"
                                         required
@@ -280,7 +283,7 @@ export const FormsPage = () => {
                                     />
                                 </div>
                                 <div className={styles.inputBlock}>
-                                    Student Class
+                                    {t('studentClass')}
                                     <input
                                         type="text"
                                         required
@@ -308,16 +311,16 @@ export const FormsPage = () => {
                                                 ariaLabel="three-circles-loading"
                                             />
                                             :
-                                            "add student"
+                                            `${t('addStudent')}`
                                     }
                                 </button>
                             </div>
                         </form>
                         <form onSubmit={handleLessonSubmit} className={styles.formContainer}>
-                            <h1>Lessons Form</h1>
+                            <h1>{t("lessonForm")}</h1>
                             <div className={styles.formContent}>
                                 <div className={styles.inputBlock}>
-                                    Lesson Name
+                                    {t("lessonName")}
                                     <input
                                         type="text"
                                         name="lessonName"
@@ -327,7 +330,7 @@ export const FormsPage = () => {
                                     />
                                 </div>
                                 <div className={styles.inputBlock}>
-                                    Teacher Name
+                                    {t("teacherName")}
                                     <input
                                         type="text"
                                         name="teacherName"
@@ -337,7 +340,7 @@ export const FormsPage = () => {
                                     />
                                 </div>
                                 <div className={styles.inputBlock}>
-                                    Teacher No
+                                    {t("teacherNo")}
                                     <input
                                         type="number"
                                         name="teacherNo"
@@ -347,7 +350,7 @@ export const FormsPage = () => {
                                     />
                                 </div>
                                 <div className={styles.inputBlock}>
-                                    Class
+                                    {t("class")}
                                     <input
                                         type="text"
                                         name="class"
@@ -375,16 +378,16 @@ export const FormsPage = () => {
                                                 ariaLabel="three-circles-loading"
                                             />
                                             :
-                                            "add lesson"
+                                            `${t("addLesson")}`
                                     }
                                 </button>
                             </div>
                         </form>
                         <form onSubmit={handleScoresSubmit} className={styles.formContainer}>
-                            <h1>Scores Form</h1>
+                            <h1>{t("scoresForm")}</h1>
                             <div className={styles.formContent}>
                                 <div className={styles.inputBlock}>
-                                    Select Student
+                                    {t("selectStudent")}
                                     <Box sx={{minWidth: 120, border: '1px solid white', borderRadius: "5px"}}>
                                         <FormControl fullWidth>
                                             <Select
@@ -418,7 +421,7 @@ export const FormsPage = () => {
                                     </Box>
                                 </div>
                                 <div className={styles.inputBlock}>
-                                    Select Teacher
+                                    {t("selectTeacher")}
                                     <Box sx={{minWidth: 120, border: '1px solid white', borderRadius: "5px"}}>
                                         <FormControl fullWidth>
                                             <Select
@@ -452,7 +455,7 @@ export const FormsPage = () => {
                                     </Box>
                                 </div>
                                 <div className={styles.inputBlock}>
-                                    Select Lesson
+                                    {t("selectLesson")}
                                     <Box sx={{minWidth: 120, border: '1px solid white', borderRadius: "5px"}}>
                                         <FormControl fullWidth>
                                             <Select
@@ -485,17 +488,17 @@ export const FormsPage = () => {
                                     </Box>
                                 </div>
                                 <div className={styles.inputBlock}>
-                                    Selected Class
+                                    {t("selectedClass")}
                                     <input
                                         disabled={true}
                                         style={{
                                             opacity: 0.5
                                         }}
-                                        value={scoreForm?.class || "Not Selected"}
+                                        value={scoreForm?.class || t('notSelected')}
                                         type="text"/>
                                 </div>
                                 <div className={styles.inputBlock}>
-                                    Date - Time
+                                    {t("dateTime")}
                                     <input
                                         type="datetime-local"
                                         name="date"
@@ -503,7 +506,7 @@ export const FormsPage = () => {
                                         onChange={(e) => handleScoreChange(e, "date")}/>
                                 </div>
                                 <div className={styles.inputBlock}>
-                                    Score
+                                    {t("score")}
                                     <input
                                         type="number"
                                         name="score"
@@ -529,7 +532,7 @@ export const FormsPage = () => {
                                                 ariaLabel="three-circles-loading"
                                             />
                                             :
-                                            "add score"
+                                           `${t("addScore")}`
                                     }
                                 </button>
                             </div>
